@@ -27,19 +27,19 @@ For the sake of analysis, I have greatly simplified the MPLS and IP lookup algor
 
 Secondly, there is a semantic issue that needs to be cleared up. I have called my IP lookup data structure a Radix-2 trie. This may not be totally accurate, as some deinitions of a radix trie require that it be space-optimized and not store intermediate nodes. However I would not consider it to be a simple trie either, as it is a special case that has 2 children per node and compares strings bit-by-bit. Regardless, the implementation details for both data structures are as follows.
 
-###### Radix-2 Trie
+#### Radix-2 Trie
 
 This trie implementation is quite simple, consisting of nodes with pointers to their children.
-
+```
 struct treeNode{
-	treeNode* zeroPtr;
-	treeNode* onePtr;
-  int outInterface;
-}
-
+    treeNode* zeroPtr;
+    treeNode* onePtr;
+    int outInterface;
+};
+```
 Each treeNode also has an outInterface field. This field is set to the exit interface for a given route, or zero to indicate null. During a route lookup, a variable is used to store the current next hop interface. If a non-zero outInterface is encountered while traversing the trie, the varaible is overwritten with the value of outInterface. This allows the most precise exit interface to be selected even if there are multiple overlapping routes.
 
-###### Jenkins Hash Table
+#### Jenkins Hash Table
 
 The hash table I am using is the standard C++ std::unordered_map, with a custom Jenkins Hash function instead of the standard std::hash. I chose the Jenkins Hash function because it appears in the BGP portion of the source code for Quagga, a software routing suite. Although Quagga does not have an implementation for MPLS yet, I decided to use the Jenkins Hash function since it has already been tested and used in a networking context. It is a relatively simple hash function relying on bitwise operators, and can process 32-bit keys. Source code can be found in jhash.cpp.
 
@@ -49,11 +49,20 @@ This solution has a decent (constant) lookup time, but is not very memory effici
 
 ## Results
 
-The compiled program CompTool simulates a set of random lookups on the populated data structures. It records the average time of each lookup for a given number of routes, and outputs that data to a text file. The data is then plotted using Python's matplotlib library.
+The compiled program CompTool simulates a set of random lookups on the populated data structures. It records the average time of each lookup for a given number of routes, and outputs that data to a text file. The data is then plotted using Python's matplotlib library. The data below was generated using the following parameters:
+
+Initial number of routes: 50
+Number of random lookups per iteration: 50
+Number of routes increased each iteration: 20
+Final number of routes: 500,000
+
+Here, average lookup time (in nanoseconds) is plotted against the number of routes in the data structure. 
 
 //Basic image Jhash
 
 //Basic image Rtree
+
+
 
 //Jhash with linreg
 
