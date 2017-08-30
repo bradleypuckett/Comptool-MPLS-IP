@@ -14,8 +14,8 @@ Asymptotic growth rates are an excellent way of judging the quality of an algori
 
 Data Structure | Avg. Lookup   | Avg. Insert |Avg. Delete  | Worst Lookup | Worst Insert | Worst Delete 
 -------------  | ------------- | ----------- | ----------- | ------------ | ------------ | ------------
-Radix-2 Trie   | O(k)          |  O(k)       | O(k)        | O(k)         | O(k)         | O(k)
-Hash Table     | O(1)          |  O(1)       | O(1)        | O(n)         | O(n)         | O(n)
+Radix-2 Trie   |![alt-text](https://github.com/bradleypuckett/Comptool-MPLS-IP/blob/master/Images/O(k).png)|![alt-text](https://github.com/bradleypuckett/Comptool-MPLS-IP/blob/master/Images/O(k).png)|![alt-text](https://github.com/bradleypuckett/Comptool-MPLS-IP/blob/master/Images/O(k).png)|![alt-text](https://github.com/bradleypuckett/Comptool-MPLS-IP/blob/master/Images/O(k).png)|![alt-text](https://github.com/bradleypuckett/Comptool-MPLS-IP/blob/master/Images/O(k).png)|![alt-text](https://github.com/bradleypuckett/Comptool-MPLS-IP/blob/master/Images/O(k).png)
+Hash Table     | ![alt-text](https://github.com/bradleypuckett/Comptool-MPLS-IP/blob/master/Images/O(1).png)|![alt-text](https://github.com/bradleypuckett/Comptool-MPLS-IP/blob/master/Images/O(1).png)|![alt-text](https://github.com/bradleypuckett/Comptool-MPLS-IP/blob/master/Images/O(1).png)|![alt-text](https://github.com/bradleypuckett/Comptool-MPLS-IP/blob/master/Images/O(n).png)|![alt-text](https://github.com/bradleypuckett/Comptool-MPLS-IP/blob/master/Images/O(n).png)|![alt-text](https://github.com/bradleypuckett/Comptool-MPLS-IP/blob/master/Images/O(n).png)
 
 Where k is the length of the key, and n is the number of key-value pairs in the data structure.
 
