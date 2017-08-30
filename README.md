@@ -14,7 +14,7 @@ Asymptotic growth rates are an excellent way of judging the quality of an algori
 
 Data Structure | Avg. Lookup   | Avg. Insert |Avg. Delete  | Worst Lookup | Worst Insert | Worst Delete 
 -------------  | ------------- | ----------- | ----------- | ------------ | ------------ | ------------
-Radix-2 Trie   |![alt-text](https://github.com/bradleypuckett/Comptool-MPLS-IP/blob/master/Images/O(k).png)|![alt-text](https://github.com/bradleypuckett/Comptool-MPLS-IP/blob/master/Images/O(k).png)|![alt-text](https://github.com/bradleypuckett/Comptool-MPLS-IP/blob/master/Images/O(k).png)|![alt-text](https://github.com/bradleypuckett/Comptool-MPLS-IP/blob/master/Images/O(k).png)|![alt-text](https://github.com/bradleypuckett/Comptool-MPLS-IP/blob/master/Images/O(k).png)|![alt-text](https://github.com/bradleypuckett/Comptool-MPLS-IP/blob/master/Images/O(k).png)
+Radix-2 Tree   |![alt-text](https://github.com/bradleypuckett/Comptool-MPLS-IP/blob/master/Images/O(k).png)|![alt-text](https://github.com/bradleypuckett/Comptool-MPLS-IP/blob/master/Images/O(k).png)|![alt-text](https://github.com/bradleypuckett/Comptool-MPLS-IP/blob/master/Images/O(k).png)|![alt-text](https://github.com/bradleypuckett/Comptool-MPLS-IP/blob/master/Images/O(k).png)|![alt-text](https://github.com/bradleypuckett/Comptool-MPLS-IP/blob/master/Images/O(k).png)|![alt-text](https://github.com/bradleypuckett/Comptool-MPLS-IP/blob/master/Images/O(k).png)
 Hash Table     | ![alt-text](https://github.com/bradleypuckett/Comptool-MPLS-IP/blob/master/Images/O(1).png)|![alt-text](https://github.com/bradleypuckett/Comptool-MPLS-IP/blob/master/Images/O(1).png)|![alt-text](https://github.com/bradleypuckett/Comptool-MPLS-IP/blob/master/Images/O(1).png)|![alt-text](https://github.com/bradleypuckett/Comptool-MPLS-IP/blob/master/Images/O(n).png)|![alt-text](https://github.com/bradleypuckett/Comptool-MPLS-IP/blob/master/Images/O(n).png)|![alt-text](https://github.com/bradleypuckett/Comptool-MPLS-IP/blob/master/Images/O(n).png)
 
 Where ![alt-text](https://github.com/bradleypuckett/Comptool-MPLS-IP/blob/master/Images/k.png) is the length of the key, and ![alt-text](https://github.com/bradleypuckett/Comptool-MPLS-IP/blob/master/Images/n.png) is the number of key-value pairs in the data structure.
@@ -23,11 +23,11 @@ Where ![alt-text](https://github.com/bradleypuckett/Comptool-MPLS-IP/blob/master
 
 For the sake of analysis, I have greatly simplified the MPLS and IP lookup algorithms. Real implementations are much more complex and may have optimizations for increased performance, but are much more difficult to analyze.
 
-Secondly, there is a semantic issue that needs to be cleared up. I have called my IP lookup data structure a Radix-2 trie. This may not be totally accurate, as some deinitions of a radix trie require that it be space-optimized and not store intermediate nodes. However I would not consider it to be a simple trie either, as it is a special case that has 2 children per node and compares strings bit-by-bit. Regardless, the implementation details for both data structures are as follows.
+Secondly, there is a semantic issue that needs to be cleared up. I have called my IP lookup data structure a Radix-2 tree. This may not be totally accurate, as some deinitions of a radix tree require that it be space-optimized and not store intermediate nodes. However I would not consider it to be a simple tree either, as it is a special case that has 2 children per node and compares strings bit-by-bit. Regardless, the implementation details for both data structures are as follows.
 
-#### Radix-2 Trie
+#### Radix-2 Tree
 
-This trie implementation is quite simple, consisting of nodes with pointers to their children. Each treeNode also has an outInterface field. This field is set to the exit interface for a given route, or zero to indicate null.
+This tree implementation is quite simple, consisting of nodes with pointers to their children. Each treeNode also has an outInterface field. This field is set to the exit interface for a given route, or zero to indicate null.
 ```cpp
 struct treeNode{
     treeNode* zeroPtr;
@@ -35,7 +35,7 @@ struct treeNode{
     int outInterface;
 };
 ```
-During a route lookup, a variable is used to store the current next hop interface. If a non-zero outInterface is encountered while traversing the trie, the varaible is overwritten with the value of outInterface. This allows the most precise exit interface to be selected even if there are multiple overlapping routes.
+During a route lookup, a variable is used to store the current next hop interface. If a non-zero outInterface is encountered while traversing the tree, the varaible is overwritten with the value of outInterface. This allows the most precise exit interface to be selected even if there are multiple overlapping routes.
 
 #### Jenkins Hash Table
 
@@ -93,6 +93,6 @@ Additionally, the transition to IPv6 means that the iterative lookup process of 
 
 Plans for future work:
 
-  *Create a framework for comparing the speed and collision rate of various hash functions
-  *Write a custom hash table utilizing the jenkins hash function
-  *Implement other space-efficient IP lookup algos and compare to radix trie
+  * Create a framework for comparing the speed and collision rate of various hash functions
+  * Write a custom hash table utilizing the jenkins hash function
+  * Implement other space-efficient IP lookup algos and compare to radix tree
