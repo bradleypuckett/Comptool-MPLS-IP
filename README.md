@@ -29,15 +29,27 @@ Secondly, there is a semantic issue that needs to be cleared up. I have called m
 
 ###### Radix-2 Trie
 
+This trie implementation is quite simple, consisting of nodes with pointers to their children.
+
+struct treeNode{
+	treeNode* zeroPtr;
+	treeNode* onePtr;
+  int outInterface;
+}
+
+Each treeNode also has an outInterface field. This field is set to the exit interface for a given route, or zero to indicate null. During a route lookup, a variable is used to store the current next hop interface. If a non-zero outInterface is encountered while traversing the trie, the varaible is overwritten with the value of outInterface. This allows the most precise exit interface to be selected even if there are multiple overlapping routes.
 
 ###### Jenkins Hash Table
 
-//Unordered_map resolves collisions by chaining. If two elements hash to the same value, they are placed in the same bucket. When one of these items is looked up, the key of the requested item is compared to the keys of all items in a given bucket. This process is what allows unordered_map to reach linear time in the worst case.
+The hash table I am using is the standard C++ std::unordered_map, with a custom Jenkins Hash function instead of the standard std::hash. I chose the Jenkins Hash function because it appears in the BGP portion of the source code for Quagga, a software routing suite. Although Quagga does not have an implementation for MPLS yet, I decided to use the Jenkins Hash function since it has already been tested and used in a networking context. It is a relatively simple hash function relying on bitwise operators, and can process 32-bit keys. Source code can be found in jhash.cpp.
+
+Unordered_map resolves collisions by chaining. If two elements hash to the same value, they are placed in the same bucket. When one of these items is looked up, the key of the requested item is compared to the keys of all items in a given bucket. This process is what allows unordered_map to reach linear time in the worst case.
 
 This solution has a decent (constant) lookup time, but is not very memory efficient. Both the keys and the values need to be stored for every entry. A more complicated yet memory-efficient solution may be to use a different hash algorithm such as Cuckoo Hashing.
 
-
 ## Results
+
+The compiled program CompTool simulates a set of random lookups on the populated data structures. It records the average time of each lookup for a given number of routes, and outputs that data to a text file. The data is then plotted using Python's matplotlib library.
 
 //Basic image Jhash
 
