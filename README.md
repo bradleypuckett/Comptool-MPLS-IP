@@ -88,13 +88,17 @@ Another interesting point is that there seems to be an inverse relationship betw
 
 ![alt-text](https://github.com/bradleypuckett/Comptool-MPLS-IP/blob/master/Images/jhash-loadfactor.png)
 
-To see if the collision resolution of std::unordered_map is the culprit, I plotted the hash table's load factor side-by-side with the Jenkins Hash results.
+To see if the collision resolution of std::unordered_map is the culprit, I plotted the hash table's load factor side-by-side with the Jenkins Hash results. I can't see any obvious correlations between lookup speed and load factor. If there was a correlation I would expect to see a sawtooth pattern in the lookup speed, in which the lookup time would get larger as the load factor approached 1, then drop after the table is doubled and rehashed. This does not appear to be the case, so there may be other issues causing linear-ish runtime.
+
+I chose to use std::unordered_map for ease of implementation, but in hindsight that may have not been the best option. In the future I may do some more testing and create my own hash table implementation, but this will have to do for now. 
 
 
 ## Final notes and conclusion
 
-Modern hardware routers have ASICs and content addressable memory to help reduce the cost of routing lookups. Because of this, forwarding speed is not much of an advantage in MPLS. However there are a few things that may make exact-match lookups, like what is used in MPLS, attractive in the future.
+Overall, I can see the advantage of MPLS-like forwarding schemes. The constant lookup time of hash tables is a definite advantage over iterative IP lookups. Hash tables provide a lot of flexibility, since a new hash function can be substituted for one with lower lookup time or a lower collision rate. However modern hardware routers have ASICs and content addressable memory to help reduce the cost of routing lookups. Because of this, forwarding speed is not much of an advantage in MPLS nowadays. However there are a few things that may make exact-match lookups, like what is used in MPLS, attractive in the future.
 
-First, technological infrastructure is moving more and more towards virtualization and the cloud.
+First, technological infrastructure is moving more and more towards virtualization and the cloud. Software-based solutions provide redundancy and ease of management, and virutalization of network functions may be commonplace in the future. Label lookups may provide the solution for high throughput software infrastructure.
 
-Finally, the transition to IPv6 means that the iterative lookup process of IP forwarding will now be processing 128-bit addresses, as opposed to the 32-bit addresses of IPv4. Currently, the address block allocation for ISP customers is in debate. Address block sizes of /64, /56, and /48 are being considered. Due to this, IPv6-capable routers may have to lookup a maximum of 80-bit bitstrings.
+//Secondly,
+
+Finally, the transition to IPv6 means that the iterative lookup process of IP forwarding will now be processing 128-bit addresses, as opposed to the 32-bit addresses of IPv4. Currently, the address block allocation for ISP customers is in debate. Address block sizes of /64, /56, and /48 are being considered. Due to this, IPv6-capable routers may have to lookup a maximum of 80-bit network addresses.
