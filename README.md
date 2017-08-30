@@ -12,7 +12,7 @@ In MPLS, labels are matched exactly in a lookup table. This process is not itera
 
 Asymptotic growth rates are an excellent way of judging the quality of an algorithm. In my implementation of IP routing lookups, I chose to use a Radix-2 Tree. Here is a side-by-side comparison of the two data structures:
 
- Data Structure      | Avg. Lookup   | Avg. Insert | Avg. Delete | Worst Lookup | Worst Insert | Worst Delete 
+Data Structure | Avg. Lookup   | Avg. Insert|Avg. Delete | Worst Lookup | Worst Insert | Worst Delete 
 ------------- | ------------- | ----------- | ----------- | ------------ | ------------ | ------------
 Radix-2 Trie  | O(k)          |  O(k)       | O(k)        | O(k)         | O(k)         | O(k)
 Hash Table    | O(1)          |  O(1)       | O(1)        | O(n)         | O(n)         | O(n)
@@ -23,8 +23,19 @@ Where k is the number of symbols in the key, and n is the number of key-value pa
 
 ## Implementation
 
-//Greatly simplified for the sake of analysis, real implementations are much more complex and may have optimizations for increased performance
-//Semantic concerns with radix tree vs patricia tree vs trie
+For the sake of analysis, I have greatly simplified the MPLS and IP lookup algorithms. Real implementations are much more complex and may have optimizations for increased performance, but are much more difficult to analyze.
+
+Secondly, there is a semantic issue that needs to be cleared up. I have called my IP lookup data structure a Radix-2 trie. This may not be totally accurate, as some deinitions of a radix trie require that it be space-optimized and not store intermediate nodes. However I would not consider it to be a simple trie either, as it is a special case that has 2 children per node and compares strings bit-by-bit. Regardless, the implementation details for both data structures are as follows.
+
+###### Radix-2 Trie
+
+
+###### Jenkins Hash Table
+
+//Unordered_map resolves collisions by chaining. If two elements hash to the same value, they are placed in the same bucket. When one of these items is looked up, the key of the requested item is compared to the keys of all items in a given bucket. This process is what allows unordered_map to reach linear time in the worst case.
+
+This solution has a decent (constant) lookup time, but is not very memory efficient. Both the keys and the values need to be stored for every entry. A more complicated yet memory-efficient solution may be to use a different hash algorithm such as Cuckoo Hashing.
+
 
 ## Results
 
@@ -46,5 +57,3 @@ Modern hardware routers have ASICs and content addressable memory to help reduce
 First, technological infrastructure is moving more and more towards virtualization and the cloud.
 
 Finally, the transition to IPv6 means that the iterative lookup process of IP forwarding will now be processing 128-bit addresses, as opposed to the 32-bit addresses of IPv4. Currently, the address block allocation for ISP customers is in debate. Address block sizes of /64, /56, and /48 are being considered. Due to this, IPv6-capable routers may have to lookup a maximum of 80-bit bitstrings.
-
-Simplify for the sake of hypothesis testing
