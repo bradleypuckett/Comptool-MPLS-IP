@@ -12,10 +12,10 @@ In MPLS, labels are matched exactly in a lookup table. This process is not itera
 
 Asymptotic growth rates are an excellent way of judging the quality of an algorithm. In my implementation of IP routing lookups, I chose to use a Radix-2 Tree. Here is a side-by-side comparison of the two data structures:
 
-Data Structure | Avg. Lookup   | Avg. Insert|Avg. Delete | Worst Lookup | Worst Insert | Worst Delete 
-------------- | ------------- | ----------- | ----------- | ------------ | ------------ | ------------
-Radix-2 Trie  | O(k)          |  O(k)       | O(k)        | O(k)         | O(k)         | O(k)
-Hash Table    | O(1)          |  O(1)       | O(1)        | O(n)         | O(n)         | O(n)
+Data Structure | Avg. Lookup   | Avg. Insert |Avg. Delete  | Worst Lookup | Worst Insert | Worst Delete 
+-------------  | ------------- | ----------- | ----------- | ------------ | ------------ | ------------
+Radix-2 Trie   | O(k)          |  O(k)       | O(k)        | O(k)         | O(k)         | O(k)
+Hash Table     | O(1)          |  O(1)       | O(1)        | O(n)         | O(n)         | O(n)
 
 Where k is the number of symbols in the key, and n is the number of key-value pairs in the data structure.
 
@@ -61,23 +61,32 @@ Final number of routes: 500,000
 
 Here, average lookup time (in nanoseconds) is plotted against the number of routes in the data structure.
 
-//Basic image Rtree
-
 ![alt-text](https://github.com/bradleypuckett/Comptool-MPLS-IP/blob/master/Images/rtree500k.png)
 
-//Basic image Jhash
+This plot shows the lookup times using the Radix Tree data structure. It has an undoubtably logarithmic shape, like other tree based data structures usually have.
+
+At first glance however, this doesnt fit the O(k) runtime that was stated earlier. The important thing to remember here is that this is a plot of the *average* time over 50 random lookups.
+
+//Statistically speaking
+
+Therefore the average number of nodes traversed is directly related to the number of nodes present in the tree.
+
+Given that our lookup strings are a maximum of 32 bits, there exists an upper bound in the case that there is a /32 route for every IPv4 address. That would produce the longest average lookup time since each lookup must perform 32 dereferences.
+
 
 ![alt text](https://github.com/bradleypuckett/Comptool-MPLS-IP/blob/master/Images/jhash500k.png "Jenkins Hash w/500k routes")
 
-//Jhash with linreg
+This plot shows the lookup times using the Jenkins Hash Table data structure. It is also interesting, in that it appears to run in linear time, rather than the expected constant time.  
+
 
 ![alt-text](https://github.com/bradleypuckett/Comptool-MPLS-IP/blob/master/Images/jhash500k-linreg.png)
 
-//Jhash with load factor
+Placing a line of best fit on the plot further confirms the linear shape. I conjecture that this linear behavior of Jenkins Hash is due to the collision resolution of std::unordered_map. This could be avoided by using a better hash scheme such as Cuckoo hashing, which resolves collisions in such a way to have constant time lookups in the worst case. There are a number of Cuckoo hash variants, so benchmarking each of these may yield some interesting results.
+
 
 ![alt-text](https://github.com/bradleypuckett/Comptool-MPLS-IP/blob/master/Images/jhash-loadfactor.png)
 
-//Conjecture that this linear behavior of jenkins hash is due to the collision resolution behavior of unordered_map. Could be avoided by using a better hash function such as Cuckoo hashing, or another perfect hash function. Each of these obviously suffer from their own issues such as longer hashing time, or other problems that make dynamic updates computationally expensive.
+To see if the collision resolution of std::unordered_map is the culprit, I plotted the hash table's load factor side-by-side with the Jenkins Hash results.
 
 
 ## Final notes and conclusion
