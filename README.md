@@ -17,9 +17,7 @@ Data Structure | Avg. Lookup   | Avg. Insert |Avg. Delete  | Worst Lookup | Wors
 Radix-2 Trie   | O(k)          |  O(k)       | O(k)        | O(k)         | O(k)         | O(k)
 Hash Table     | O(1)          |  O(1)       | O(1)        | O(n)         | O(n)         | O(n)
 
-Where k is the number of symbols in the key, and n is the number of key-value pairs in the data structure.
-
-//The simpler the hash algorithm is, the faster packets can be forwarded using an MPLS-like system. On the flipside, simple hash algorithms tend to have more collisions, which can tend towards O(n) rather than the desired O(1).
+Where k is the length of the key, and n is the number of key-value pairs in the data structure.
 
 ## Implementation
 
@@ -45,7 +43,9 @@ The hash table I am using is the standard C++ std::unordered_map, with a custom 
 
 Unordered_map resolves collisions by chaining. If two elements hash to the same value, they are placed in the same bucket. When one of these items is looked up, the key of the requested item is compared to the keys of all items in a given bucket. This process is what allows unordered_map to reach linear time in the worst case.
 
-This solution has a decent (constant) lookup time, but is not very memory efficient. Both the keys and the values need to be stored for every entry. A more complicated yet memory-efficient solution may be to use a different hash algorithm such as Cuckoo Hashing.
+This solution has a decent (constant) lookup time, but is not very memory efficient. Both the keys and the values need to be stored for every entry.
+
+//A more complicated yet memory-efficient solution may be to use a different hash algorithm such as Cuckoo Hashing.
 
 ## Results
 
@@ -82,6 +82,8 @@ This plot shows the lookup times using the Jenkins Hash Table data structure. It
 ![alt-text](https://github.com/bradleypuckett/Comptool-MPLS-IP/blob/master/Images/jhash500k-linreg.png)
 
 Placing a line of best fit on the plot further confirms the linear shape. I conjecture that this linear behavior of Jenkins Hash is due to the collision resolution of std::unordered_map. This could be avoided by using a better hash scheme such as Cuckoo hashing, which resolves collisions in such a way to have constant time lookups in the worst case. There are a number of Cuckoo hash variants, so benchmarking each of these may yield some interesting results.
+
+Another interesting point is that there seems to be an inverse relationship between hashing time and rate of collision. The simpler the hash algorithm is, the faster it can produce hashes. On the flipside, simple hash algorithms tend to have more collisions, which can tend towards O(n) rather than the desired O(1). Thus in an MPLS-like scenario where lookup time is critical, it is important to consider both the hash speed and collision rate when choosing an algorithm.
 
 
 ![alt-text](https://github.com/bradleypuckett/Comptool-MPLS-IP/blob/master/Images/jhash-loadfactor.png)
