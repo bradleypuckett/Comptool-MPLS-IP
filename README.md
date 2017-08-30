@@ -27,7 +27,7 @@ Secondly, there is a semantic issue that needs to be cleared up. I have called m
 
 #### Radix-2 Tree
 
-This tree implementation is quite simple, consisting of nodes with pointers to their children. Each treeNode also has an outInterface field. This field is set to the exit interface for a given route, or zero to indicate null.
+This tree implementation is quite simple, consisting of nodes with pointers to their children and an outInterface field. This field is set to the exit interface for a given route, or zero to indicate null.
 ```cpp
 struct treeNode{
     treeNode* zeroPtr;
