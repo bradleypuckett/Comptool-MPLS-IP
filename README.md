@@ -30,7 +30,7 @@ Secondly, there is a semantic issue that needs to be cleared up. I have called m
 #### Radix-2 Trie
 
 This trie implementation is quite simple, consisting of nodes with pointers to their children.
-```
+```cpp
 struct treeNode{
     treeNode* zeroPtr;
     treeNode* onePtr;
@@ -52,21 +52,30 @@ This solution has a decent (constant) lookup time, but is not very memory effici
 The compiled program CompTool simulates a set of random lookups on the populated data structures. It records the average time of each lookup for a given number of routes, and outputs that data to a text file. The data is then plotted using Python's matplotlib library. The data below was generated using the following parameters:
 
 Initial number of routes: 50
+
 Number of random lookups per iteration: 50
+
 Number of routes increased each iteration: 20
+
 Final number of routes: 500,000
 
-Here, average lookup time (in nanoseconds) is plotted against the number of routes in the data structure. 
-
-//Basic image Jhash
+Here, average lookup time (in nanoseconds) is plotted against the number of routes in the data structure.
 
 //Basic image Rtree
 
+![alt-text](https://github.com/bradleypuckett/Comptool-MPLS-IP/blob/master/Images/rtree500k.png)
 
+//Basic image Jhash
+
+![alt text](https://github.com/bradleypuckett/Comptool-MPLS-IP/blob/master/Images/jhash500k.png "Jenkins Hash w/500k routes")
 
 //Jhash with linreg
 
+![alt-text](https://github.com/bradleypuckett/Comptool-MPLS-IP/blob/master/Images/jhash500k-linreg.png)
+
 //Jhash with load factor
+
+![alt-text](https://github.com/bradleypuckett/Comptool-MPLS-IP/blob/master/Images/jhash-loadfactor.png)
 
 //Conjecture that this linear behavior of jenkins hash is due to the collision resolution behavior of unordered_map. Could be avoided by using a better hash function such as Cuckoo hashing, or another perfect hash function. Each of these obviously suffer from their own issues such as longer hashing time, or other problems that make dynamic updates computationally expensive.
 
