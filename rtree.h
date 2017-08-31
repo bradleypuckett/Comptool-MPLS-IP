@@ -7,16 +7,16 @@
 
 
 struct treeNode{
-	treeNode* zeroPtr;
-	treeNode* onePtr;
-	int outInterface;
+    treeNode* zeroPtr;
+    treeNode* onePtr;
+    int outInterface;
 
-	treeNode(int interface);
-	~treeNode();
+    treeNode(int interface);
+    ~treeNode();
 
     void add_subnet(int * subnet, int interface);
-	void printTree();
-	int lookup_address(int * address);
+    void printTree();
+    int lookup_address(int * address);
 };
 
 #endif
