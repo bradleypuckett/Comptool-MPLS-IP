@@ -1,6 +1,8 @@
 #ifndef _IP_UTILS_H
 #define _IP_UTILS_H
 
+#include <iostream>
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>

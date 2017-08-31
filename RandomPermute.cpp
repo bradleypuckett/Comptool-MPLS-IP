@@ -1,11 +1,4 @@
-#include <iostream>
-#include <ostream>
-#include <random>
-#include <string>
-
-#include <assert.h>
-#include <stdio.h>
-#include <sys/time.h>
+#include "RandomPermute.h"
 
 void KnuthShuffle(int * arr, size_t arr_len){
 

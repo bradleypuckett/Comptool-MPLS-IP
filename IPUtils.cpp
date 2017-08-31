@@ -1,7 +1,4 @@
 #include "IPUtils.h"
-#include <iostream>
-
-using namespace std;
 
 int* generateRandomSubnet(){
 	int x = (rand() % 32) + 1;

@@ -20,8 +20,18 @@
 #ifndef _JHASH_H
 #define _JHASH_H
 
+#include <iostream>
+#include <unordered_map>
+#include <string>
+#include <functional>
+
+#include <assert.h>
+#include <stdlib.h>
 #include <stdint.h>
 #include <stdio.h>
+
+/* The golden ration: an arbitrary value */
+#define JHASH_GOLDEN_RATIO  0x9e3779b9
 
 /* A special ultra-optimized versions that knows they are hashing exactly
  * 3, 2 or 1 word(s).

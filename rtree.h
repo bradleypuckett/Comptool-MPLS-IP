@@ -1,6 +1,10 @@
 #ifndef __RTREE_H__
 #define __RTREE_H__
 
+#include <cstddef>
+
+#include <stdio.h>
+
 
 struct treeNode{
 	treeNode* zeroPtr;

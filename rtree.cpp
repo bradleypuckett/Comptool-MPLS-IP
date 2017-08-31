@@ -1,9 +1,5 @@
 #include "rtree.h"
 
-#include <stdio.h>
-
-#include <cstddef>
-
 	treeNode::treeNode(int interface){
 		zeroPtr = nullptr;
 		onePtr = nullptr;
@@ -45,11 +41,12 @@
 	}
 
 	void treeNode::printTree(){
-		printf("This is: %p\n");
-		if(this != nullptr){
+		if(this->zeroPtr != nullptr){
 			this->zeroPtr->printTree();
-			printf("At %p, Zero: %p, One: %p, Interface: %d\n", this, this->zeroPtr, this->onePtr, this->outInterface);
-			this->onePtr->printTree();
+		}
+		printf("At %p, Zero: %p, One: %p, Interface: %d\n", this, this->zeroPtr, this->onePtr, this->outInterface);
+		if(this->onePtr != nullptr){
+			this->onePtr->printTree();	
 		}
 		return;
 	}

@@ -1,18 +1,4 @@
-#include <iostream>
-#include <unordered_map>
-#include <string>
-#include <functional>
-
-#include <assert.h>
-#include <stdint.h>
-#include <stdlib.h>
-
 #include "jhash.h"
-
-/* The golden ration: an arbitrary value */
-#define JHASH_GOLDEN_RATIO  0x9e3779b9
- 
-using namespace std;
 
 size_t jenkins_hash(const uint32_t &num){
     return (size_t) jhash_3words (num, 0, 0, 86245);
